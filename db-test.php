@@ -1,31 +1,24 @@
 <?php
 
 $get = vrzno_env('_GET');
-$db  = vrzno_env('db');
+$db = new PDO('cfd1:main');
 
 if(!$get->id)
 {
-    $statement = $db
-    ->prepare('SELECT * FROM Customers');
+	$statement = $db->prepare('SELECT * FROM Customers');
 }
 else
 {
-    $statement = $db
-    ->prepare('SELECT * FROM Customers WHERE CustomerId = ?')
-    ->bind($get->id);
+	$statement = $db->prepare('SELECT * FROM Customers WHERE CustomerId = ?');
+
+	$statement->execute([$get->id]);
 }
 
-$result = vrzno_await($statement->all());
-
-$records = (array)$result->results;
-
 echo "<pre>";
-
-foreach($records as $record)
+while($record = $statement->fetchObject())
 {
 	var_dump($record);
 }
-
 echo "</pre>";
 
 ?>

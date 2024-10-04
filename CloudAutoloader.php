@@ -82,7 +82,8 @@ class CloudAutoloader
 
 	protected function fetchPackage($url)
 	{
-		$fetch = static::$vrzno->fetch($url, (object)['headers' => (object)[ 'User-Agent' => 'google-chrome lol' ]]);
+		// $fetch = static::$vrzno->fetch($url, (object)['headers' => (object)[ 'User-Agent' => 'google-chrome lol' ]]);
+		$fetch = static::$vrzno->fetch($url, (object)['headers' => (object)[ 'method' => 'google-chrome lol' ]]);
 		$resp  = vrzno_await($fetch);
 
 		return vrzno_await($resp->arrayBuffer());
