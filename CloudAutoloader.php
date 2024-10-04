@@ -119,7 +119,8 @@ class CloudAutoloader
 		}
 		else
 		{
-			// echo 'failed, code:' . $res;
+			echo 'failed, code:' . $res . PHP_EOL;
+			echo $buffer;
 			return FALSE;
 		}
 
