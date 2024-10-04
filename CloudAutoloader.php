@@ -82,8 +82,7 @@ class CloudAutoloader
 
 	protected function fetchPackage($url)
 	{
-		// $fetch = static::$vrzno->fetch($url, (object)['headers' => (object)[ 'User-Agent' => 'google-chrome lol' ]]);
-		$fetch = static::$vrzno->fetch($url, (object)['headers' => (object)[ 'method' => 'google-chrome lol' ]]);
+		$fetch = static::$vrzno->fetch($url, (object)['headers' => (object)[ 'User-Agent' => 'google-chrome lol']]);
 		$resp  = vrzno_await($fetch);
 
 		return vrzno_await($resp->arrayBuffer());
@@ -98,14 +97,14 @@ class CloudAutoloader
 			$binary .= chr((int)$byte);
 		}
 
-		$memFile = fopen('/tmp/pkg.zip', 'w');
-
-		if(!is_dir('/tmp/vendor'))
+		if(!is_dir($this->venDir))
 		{
-			mkdir('/tmp/vendor');
+			mkdir($this->venDir);
 		}
 
+		$memFile = fopen('/tmp/pkg.zip', 'w');
 		fwrite($memFile, $binary);
+		fclose($memFile);
 
 		$zip = new \ZipArchive;
 		$res = $zip->open('/tmp/pkg.zip');
@@ -119,8 +118,6 @@ class CloudAutoloader
 		}
 		else
 		{
-			echo 'failed, code:' . $res . PHP_EOL;
-			echo $buffer;
 			return FALSE;
 		}
 

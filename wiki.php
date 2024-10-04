@@ -1,9 +1,9 @@
 <?php
-eval('?>'.vrzno_await( vrzno_await((new Vrzno)->fetch(vrzno_env('staticOrigin') . '/CloudAutoloader.php'))->text()));
-
+$staticOrigin = vrzno_env('staticOrigin');
+// vrzno_include & vrzno_require need to do this:
+eval('?>'.vrzno_await( vrzno_await((new Vrzno)->fetch($staticOrigin . '/CloudAutoloader.php'))->text()) );
 CloudAutoloader::register();
-
-eval('?>'.vrzno_await( vrzno_await((new Vrzno)->fetch(vrzno_env('staticOrigin') . '/WikiMarkdown.php'))->text()));
+eval('?>'.vrzno_await( vrzno_await((new Vrzno)->fetch($staticOrigin . '/WikiMarkdown.php'))->text()) );
 
 $parser = new WikiMarkdown();
 
@@ -23,12 +23,12 @@ if($pageTitle && $post->PageContent)
 {
 	if($page)
 	{
-		$update = $pdo->prepare('UPDATE WikiPages SET PageContent = ?2 WHERE PageTitle = ?1');
-		$update->execute([$pageTitle, $post->PageContent]);
+		$update = $pdo->prepare('UPDATE WikiPages SET PageContent = ? WHERE PageTitle = ?');
+		$update->execute([$post->PageContent, $pageTitle]);
 	}
 	else
 	{
-		$insert = $pdo->prepare('INSERT INTO WikiPages (PageTitle, PageContent) VALUES (?1, ?2)');
+		$insert = $pdo->prepare('INSERT INTO WikiPages (PageTitle, PageContent) VALUES (?, ?)');
 		$insert->execute([$pageTitle, $post->PageContent]);
 	}
 
