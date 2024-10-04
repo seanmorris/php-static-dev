@@ -1,7 +1,7 @@
 <?php
 
 $get = vrzno_env('_GET');
-$db = new PDO('cfd1:main');
+$db = new PDO('cfd1:db');
 
 if(!$get->id)
 {

@@ -1,6 +1,6 @@
 <?php
 
-$pdo = new PDO('cfd1:main');
+$pdo = new PDO('cfd1:db');
 
 $update = $pdo->prepare('UPDATE WikiPages SET PageTitle = ? WHERE PageId = ?');
 
